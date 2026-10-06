@@ -1,0 +1,318 @@
+:root {
+  --bg: #fffbe6;
+  --dot: #fff0a3;
+  --card: #ffffff;
+  --ink: #3b2a12;
+  --muted: #8a7a55;
+  --lemon: #ffe14d;
+  --lemon-deep: #f5c400;
+  --rind: #e0a800;
+  --leaf: #7cc35a;
+  --leaf-deep: #4e8f37;
+  --pink: #ff9fa8;
+  --shadow: 0 6px 0 #f0d46a, 0 14px 30px rgba(224, 168, 0, .18);
+  --radius: 28px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1f1b0f;
+    --dot: #2b2512;
+    --card: #2a2414;
+    --ink: #fff4c7;
+    --muted: #c9b780;
+    --shadow: 0 6px 0 #4a3c10, 0 14px 30px rgba(0, 0, 0, .4);
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Nunito", system-ui, sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+.bg-dots {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(var(--dot) 14%, transparent 15%);
+  background-size: 36px 36px;
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+h1, h2, h3, .input-label, .val, .chips button {
+  font-family: "Fredoka", "Nunito", sans-serif;
+}
+
+/* ---------- hero ---------- */
+.hero {
+  text-align: center;
+  padding: 40px 16px 8px;
+}
+
+.mascot {
+  width: 170px;
+  max-width: 50vw;
+  animation: wobble 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 8px 0 rgba(224, 168, 0, .25));
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50% { transform: rotate(4deg) translateY(-6px); }
+}
+
+h1 {
+  margin: 8px 0 4px;
+  font-size: clamp(2.4rem, 8vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--leaf-deep);
+}
+
+h1 span {
+  color: var(--lemon-deep);
+  -webkit-text-stroke: 1.5px var(--rind);
+}
+
+.tagline {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ---------- layout ---------- */
+main {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+}
+
+.card {
+  background: var(--card);
+  border: 3px solid var(--lemon);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px 24px;
+}
+
+/* ---------- calculadora ---------- */
+.input-label {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--lemon);
+  border: 3px solid var(--rind);
+  border-radius: 999px;
+  padding: 6px 28px;
+  transition: transform .15s ease;
+}
+
+.input-wrap:focus-within {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 5px rgba(124, 195, 90, .45);
+}
+
+.input-wrap input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: "Fredoka", sans-serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #3b2a12;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.input-wrap input::-webkit-outer-spin-button,
+.input-wrap input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.unit {
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #6b5414;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px 0 22px;
+}
+
+.chips button {
+  border: 2px solid var(--leaf);
+  background: transparent;
+  color: var(--leaf-deep);
+  font-size: .95rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .15s, color .15s, transform .1s;
+}
+
+@media (prefers-color-scheme: dark) {
+  .chips button { color: var(--leaf); }
+}
+
+.chips button:hover { transform: translateY(-2px); }
+.chips button.active,
+.chips button:active { background: var(--leaf); color: #fff; }
+
+.results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.res {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-radius: 20px;
+  border: 2px dashed transparent;
+}
+
+.res.citric { background: #fff6c2; border-color: var(--lemon-deep); }
+.res.malic  { background: #e6f6d9; border-color: var(--leaf); }
+.res.water  { background: #def1ff; border-color: #79bdf0; }
+
+.res .ico {
+  font-size: 1.6rem;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.res .name { font-weight: 700; color: #3b2a12; }
+
+.res .val {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #3b2a12;
+  white-space: nowrap;
+}
+
+.res .val b {
+  display: inline-block;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+.bump { animation: bump .3s ease; }
+@keyframes bump {
+  40% { transform: scale(1.18); }
+}
+
+.yield {
+  text-align: center;
+  margin: 20px 0 4px;
+  font-weight: 600;
+}
+
+.ratio {
+  text-align: center;
+  margin: 0;
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+/* ---------- passo a passo ---------- */
+.steps h2 {
+  margin: 0 0 18px;
+  font-size: 1.8rem;
+  color: var(--leaf-deep);
+}
+
+@media (prefers-color-scheme: dark) {
+  .steps h2 { color: var(--leaf); }
+}
+
+.steps ol {
+  list-style: none;
+  counter-reset: step;
+  margin: 0;
+  padding: 0;
+}
+
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 22px 60px;
+}
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0; top: -2px;
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  background: var(--lemon);
+  border: 3px solid var(--rind);
+  border-radius: 50%;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #3b2a12;
+}
+
+.steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 20px; top: 44px; bottom: 2px;
+  border-left: 3px dotted var(--lemon-deep);
+}
+
+.steps li:last-child { padding-bottom: 0; }
+
+.steps h3 {
+  margin: 6px 0 4px;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.steps p { margin: 0; color: var(--muted); }
+
+footer {
+  text-align: center;
+  padding: 0 16px 32px;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot, .bump { animation: none; }
+}
