@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super Suco de Limão</title>
+  <meta name="description" content="Calculadora de super suco de limão: coloca o peso da casca e descobre quanto de ácido cítrico, ácido málico e água usar.">
+  <meta name="theme-color" content="#8fd14f">
+  <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍋‍🟩</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-fruit="taiti">
+  <div class="bg-dots" aria-hidden="true"></div>
+
+  <header class="hero">
+    <svg class="mascot" viewBox="0 0 200 160" aria-hidden="true">
+      <!-- folhinha -->
+      <path class="leaf" d="M118 30 C135 5 170 8 178 18 C165 34 140 40 118 30 Z" stroke-width="3" stroke-linejoin="round"/>
+      <path class="leaf-vein" d="M122 29 C140 22 158 18 172 18" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- limão taiti: redondinho -->
+      <g class="shape-taiti">
+        <circle class="fruit" cx="100" cy="92" r="64" stroke-width="4"/>
+        <path class="fruit" d="M108 30 Q112 22 120 24 Q118 32 110 33" stroke-width="3.5" stroke-linejoin="round"/>
+        <ellipse class="shine" cx="68" cy="62" rx="15" ry="8" transform="rotate(-35 68 62)"/>
+      </g>
+      <!-- limão siciliano: oval com biquinhos -->
+      <g class="shape-siciliano">
+        <ellipse class="fruit" cx="100" cy="90" rx="78" ry="58" stroke-width="4"/>
+        <path class="fruit" d="M20 90 Q12 90 10 86 Q12 80 22 82" stroke-width="4" stroke-linejoin="round"/>
+        <path class="fruit" d="M180 90 Q188 90 190 86 Q188 80 178 82" stroke-width="4" stroke-linejoin="round"/>
+        <ellipse class="shine" cx="62" cy="62" rx="16" ry="8" transform="rotate(-25 62 62)"/>
+      </g>
+      <!-- carinha -->
+      <ellipse cx="78" cy="88" rx="6" ry="8" fill="#3b2a12"/>
+      <ellipse cx="122" cy="88" rx="6" ry="8" fill="#3b2a12"/>
+      <circle cx="80" cy="85" r="2.2" fill="#fff"/>
+      <circle cx="124" cy="85" r="2.2" fill="#fff"/>
+      <ellipse cx="64" cy="104" rx="10" ry="6" fill="#ff9fa8" opacity=".7"/>
+      <ellipse cx="136" cy="104" rx="10" ry="6" fill="#ff9fa8" opacity=".7"/>
+      <path d="M90 104 Q100 116 110 104" fill="none" stroke="#3b2a12" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <h1>Super Suco<br><span id="title-fruit">de Limão</span></h1>
+    <p class="tagline">Bota o peso da casca, que a gente faz a conta <span id="heart">💚</span></p>
+
+    <div class="tabs" role="tablist" aria-label="Tipo de limão">
+      <button type="button" role="tab" id="tab-taiti" data-fruit="taiti" aria-selected="true">🍋‍🟩 Limão</button>
+      <button type="button" role="tab" id="tab-siciliano" data-fruit="siciliano" aria-selected="false">🍋 Siciliano</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="card calc" aria-labelledby="calc-title">
+      <h2 id="calc-title" class="sr-only">Calculadora</h2>
+
+      <label for="peel" class="input-label">Quanto de casca você tem?</label>
+      <div class="input-wrap">
+        <input id="peel" type="number" inputmode="decimal" min="0" step="any" value="15" autocomplete="off">
+        <span class="unit">g</span>
+      </div>
+      <div class="chips" role="group" aria-label="Atalhos de peso">
+        <button type="button" data-g="15">15 g</button>
+        <button type="button" data-g="50">50 g</button>
+        <button type="button" data-g="100">100 g</button>
+        <button type="button" data-g="200">200 g</button>
+      </div>
+
+      <ul class="results" aria-live="polite">
+        <li class="res citric">
+          <span class="ico" aria-hidden="true">🧂</span>
+          <span class="name">Ácido cítrico</span>
+          <span class="val"><b id="out-citric">10</b> g</span>
+        </li>
+        <li class="res malic" id="row-malic">
+          <span class="ico" aria-hidden="true">🍏</span>
+          <span class="name">Ácido málico</span>
+          <span class="val"><b id="out-malic">5</b> g</span>
+        </li>
+        <li class="res water">
+          <span class="ico" aria-hidden="true">💧</span>
+          <span class="name">Água</span>
+          <span class="val"><b id="out-water">250</b> <span id="out-water-unit">ml</span></span>
+        </li>
+      </ul>
+
+      <p class="yield">Rende mais ou menos <b id="out-yield">250 ml</b> de super suco ✨</p>
+      <p class="ratio" id="ratio"></p>
+    </section>
+
+    <section class="card steps" aria-labelledby="steps-title">
+      <h2 id="steps-title">Passo a passo <span class="fruit-emoji">🍋‍🟩</span></h2>
+      <ol>
+        <li>
+          <h3>Descasca os limões</h3>
+          <p>Com um descascador, tira só a parte <span id="peel-color">verde</span> da casca, evitando ao máximo a parte branca (que amarga). Dá pra usar as cascas dos limões que você já espremeu.</p>
+        </li>
+        <li>
+          <h3>Pesa a casca</h3>
+          <p>Joga a casca na balança e coloca o peso aqui em cima na calculadora.</p>
+        </li>
+        <li>
+          <h3>Mistura com os ácidos</h3>
+          <p>Num pote, cobre as cascas com <span id="acids">o ácido cítrico e o ácido málico</span>. Mexe bem pra todas as cascas ficarem envolvidas no pó.</p>
+        </li>
+        <li>
+          <h3>Deixa descansar</h3>
+          <p>Espera de 1 a 2 horas. O ácido puxa os óleos da casca e vira uma pastinha cheirosa no fundo do pote.</p>
+        </li>
+        <li>
+          <h3>Bate com a água</h3>
+          <p>Passa tudo pro liquidificador, adiciona a água e bate por uns 30–60 segundos, até as cascas ficarem bem picadinhas.</p>
+        </li>
+        <li>
+          <h3>Coa</h3>
+          <p>Coa numa peneira fina (ou pano de prato limpo / filtro de café) pra tirar todos os pedacinhos.</p>
+        </li>
+        <li>
+          <h3>Engarrafa e gela</h3>
+          <p>Guarda numa garrafa fechada na geladeira. Dura cerca de 1 semana — e usa na mesma medida que usaria suco de limão. 🍹</p>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer>feito com <span class="fruit-emoji">🍋‍🟩</span> e um pouquinho de ácido</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
