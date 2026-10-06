@@ -1,33 +1,67 @@
+/* Tema base (taiti) */
 :root {
-  --bg: #fffbe6;
-  --dot: #fff0a3;
   --card: #ffffff;
   --ink: #3b2a12;
+  --pink: #ff9fa8;
+  --radius: 28px;
+}
+
+body[data-fruit="taiti"] {
+  --bg: #f4fbe9;
+  --dot: #e0f3c6;
+  --muted: #6b7f55;
+  --fruit: #8fd14f;
+  --fruit-deep: #6cbf3a;
+  --rind: #3f8a24;
+  --shine: #d4f5ad;
+  --leaf: #4fae3c;
+  --leaf-deep: #2e6b1f;
+  --glow: rgba(63, 138, 36, .25);
+  --shadow: 0 6px 0 #c3e6a0, 0 14px 30px rgba(63, 138, 36, .18);
+}
+
+body[data-fruit="siciliano"] {
+  --bg: #fffbe6;
+  --dot: #fff0a3;
   --muted: #8a7a55;
-  --lemon: #ffe14d;
-  --lemon-deep: #f5c400;
+  --fruit: #ffe14d;
+  --fruit-deep: #f5c400;
   --rind: #e0a800;
+  --shine: #fff6b8;
   --leaf: #7cc35a;
   --leaf-deep: #4e8f37;
-  --pink: #ff9fa8;
+  --glow: rgba(224, 168, 0, .25);
   --shadow: 0 6px 0 #f0d46a, 0 14px 30px rgba(224, 168, 0, .18);
-  --radius: 28px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --card: #232414;
+    --ink: #f6f7d9;
+  }
+  body[data-fruit="taiti"] {
+    --bg: #141c0f;
+    --dot: #1d2a15;
+    --card: #1e2a16;
+    --muted: #a9c48d;
+    --leaf-deep: #8fd14f;
+    --shadow: 0 6px 0 #2f4a1c, 0 14px 30px rgba(0, 0, 0, .4);
+  }
+  body[data-fruit="siciliano"] {
     --bg: #1f1b0f;
     --dot: #2b2512;
     --card: #2a2414;
-    --ink: #fff4c7;
     --muted: #c9b780;
+    --leaf-deep: #7cc35a;
     --shadow: 0 6px 0 #4a3c10, 0 14px 30px rgba(0, 0, 0, .4);
   }
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 body {
+  transition: background .3s;
   margin: 0;
   min-height: 100vh;
   background: var(--bg);
@@ -64,7 +98,7 @@ h1, h2, h3, .input-label, .val, .chips button {
   width: 170px;
   max-width: 50vw;
   animation: wobble 3.5s ease-in-out infinite;
-  filter: drop-shadow(0 8px 0 rgba(224, 168, 0, .25));
+  filter: drop-shadow(0 8px 0 var(--glow));
 }
 
 @keyframes wobble {
@@ -81,7 +115,7 @@ h1 {
 }
 
 h1 span {
-  color: var(--lemon-deep);
+  color: var(--fruit-deep);
   -webkit-text-stroke: 1.5px var(--rind);
 }
 
@@ -90,6 +124,47 @@ h1 span {
   color: var(--muted);
   font-weight: 600;
 }
+
+/* mascote: troca a forma conforme o limão */
+.mascot .fruit { fill: var(--fruit); stroke: var(--rind); transition: fill .3s, stroke .3s; }
+.mascot .shine { fill: var(--shine); }
+.mascot .leaf { fill: var(--leaf); stroke: var(--leaf-deep); }
+.mascot .leaf-vein { stroke: var(--leaf-deep); }
+body[data-fruit="taiti"] .shape-siciliano,
+body[data-fruit="siciliano"] .shape-taiti { display: none; }
+
+/* ---------- abas ---------- */
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  margin-top: 20px;
+  padding: 5px;
+  background: var(--card);
+  border: 3px solid var(--fruit);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+
+.tabs button {
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: "Fredoka", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s, color .2s;
+}
+
+.tabs button[aria-selected="true"] {
+  background: var(--fruit);
+  color: #3b2a12;
+  box-shadow: inset 0 0 0 2px var(--rind);
+}
+
+.tabs button:focus-visible { outline: 3px solid var(--leaf); outline-offset: 2px; }
 
 /* ---------- layout ---------- */
 main {
@@ -103,7 +178,7 @@ main {
 
 .card {
   background: var(--card);
-  border: 3px solid var(--lemon);
+  border: 3px solid var(--fruit);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 28px 24px;
@@ -122,11 +197,11 @@ main {
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--lemon);
+  background: var(--fruit);
   border: 3px solid var(--rind);
   border-radius: 999px;
   padding: 6px 28px;
-  transition: transform .15s ease;
+  transition: transform .15s ease, background .3s, border-color .3s;
 }
 
 .input-wrap:focus-within {
@@ -179,9 +254,6 @@ main {
   transition: background .15s, color .15s, transform .1s;
 }
 
-@media (prefers-color-scheme: dark) {
-  .chips button { color: var(--leaf); }
-}
 
 .chips button:hover { transform: translateY(-2px); }
 .chips button.active,
@@ -205,7 +277,7 @@ main {
   border: 2px dashed transparent;
 }
 
-.res.citric { background: #fff6c2; border-color: var(--lemon-deep); }
+.res.citric { background: #fff6c2; border-color: var(--fruit-deep); }
 .res.malic  { background: #e6f6d9; border-color: var(--leaf); }
 .res.water  { background: #def1ff; border-color: #79bdf0; }
 
@@ -257,9 +329,6 @@ main {
   color: var(--leaf-deep);
 }
 
-@media (prefers-color-scheme: dark) {
-  .steps h2 { color: var(--leaf); }
-}
 
 .steps ol {
   list-style: none;
@@ -280,7 +349,7 @@ main {
   left: 0; top: -2px;
   width: 42px; height: 42px;
   display: grid; place-items: center;
-  background: var(--lemon);
+  background: var(--fruit);
   border: 3px solid var(--rind);
   border-radius: 50%;
   font-family: "Fredoka", sans-serif;
@@ -293,7 +362,7 @@ main {
   content: "";
   position: absolute;
   left: 20px; top: 44px; bottom: 2px;
-  border-left: 3px dotted var(--lemon-deep);
+  border-left: 3px dotted var(--fruit-deep);
 }
 
 .steps li:last-child { padding-bottom: 0; }

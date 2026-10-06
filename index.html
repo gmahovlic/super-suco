@@ -5,26 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Super Suco de Limão</title>
   <meta name="description" content="Calculadora de super suco de limão: coloca o peso da casca e descobre quanto de ácido cítrico, ácido málico e água usar.">
-  <meta name="theme-color" content="#f7e94a">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍋</text></svg>">
+  <meta name="theme-color" content="#8fd14f">
+  <link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍋‍🟩</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-fruit="taiti">
   <div class="bg-dots" aria-hidden="true"></div>
 
   <header class="hero">
     <svg class="mascot" viewBox="0 0 200 160" aria-hidden="true">
       <!-- folhinha -->
-      <path d="M118 30 C135 5 170 8 178 18 C165 34 140 40 118 30 Z" fill="#7cc35a" stroke="#4e8f37" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M122 29 C140 22 158 18 172 18" fill="none" stroke="#4e8f37" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- limão -->
-      <ellipse cx="100" cy="90" rx="78" ry="58" fill="#ffe14d" stroke="#e0a800" stroke-width="4"/>
-      <path d="M20 90 Q12 90 10 86 Q12 80 22 82" fill="#ffe14d" stroke="#e0a800" stroke-width="4" stroke-linejoin="round"/>
-      <path d="M180 90 Q188 90 190 86 Q188 80 178 82" fill="#ffe14d" stroke="#e0a800" stroke-width="4" stroke-linejoin="round"/>
-      <ellipse cx="62" cy="62" rx="16" ry="8" fill="#fff6b8" transform="rotate(-25 62 62)"/>
+      <path class="leaf" d="M118 30 C135 5 170 8 178 18 C165 34 140 40 118 30 Z" stroke-width="3" stroke-linejoin="round"/>
+      <path class="leaf-vein" d="M122 29 C140 22 158 18 172 18" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- limão taiti: redondinho -->
+      <g class="shape-taiti">
+        <circle class="fruit" cx="100" cy="92" r="64" stroke-width="4"/>
+        <path class="fruit" d="M108 30 Q112 22 120 24 Q118 32 110 33" stroke-width="3.5" stroke-linejoin="round"/>
+        <ellipse class="shine" cx="68" cy="62" rx="15" ry="8" transform="rotate(-35 68 62)"/>
+      </g>
+      <!-- limão siciliano: oval com biquinhos -->
+      <g class="shape-siciliano">
+        <ellipse class="fruit" cx="100" cy="90" rx="78" ry="58" stroke-width="4"/>
+        <path class="fruit" d="M20 90 Q12 90 10 86 Q12 80 22 82" stroke-width="4" stroke-linejoin="round"/>
+        <path class="fruit" d="M180 90 Q188 90 190 86 Q188 80 178 82" stroke-width="4" stroke-linejoin="round"/>
+        <ellipse class="shine" cx="62" cy="62" rx="16" ry="8" transform="rotate(-25 62 62)"/>
+      </g>
       <!-- carinha -->
       <ellipse cx="78" cy="88" rx="6" ry="8" fill="#3b2a12"/>
       <ellipse cx="122" cy="88" rx="6" ry="8" fill="#3b2a12"/>
@@ -34,8 +42,13 @@
       <ellipse cx="136" cy="104" rx="10" ry="6" fill="#ff9fa8" opacity=".7"/>
       <path d="M90 104 Q100 116 110 104" fill="none" stroke="#3b2a12" stroke-width="4" stroke-linecap="round"/>
     </svg>
-    <h1>Super Suco<br><span>de Limão</span></h1>
-    <p class="tagline">Bota o peso da casca, que a gente faz a conta 💛</p>
+    <h1>Super Suco<br><span id="title-fruit">de Limão</span></h1>
+    <p class="tagline">Bota o peso da casca, que a gente faz a conta <span id="heart">💚</span></p>
+
+    <div class="tabs" role="tablist" aria-label="Tipo de limão">
+      <button type="button" role="tab" id="tab-taiti" data-fruit="taiti" aria-selected="true">🍋‍🟩 Limão</button>
+      <button type="button" role="tab" id="tab-siciliano" data-fruit="siciliano" aria-selected="false">🍋 Siciliano</button>
+    </div>
   </header>
 
   <main>
@@ -60,7 +73,7 @@
           <span class="name">Ácido cítrico</span>
           <span class="val"><b id="out-citric">10</b> g</span>
         </li>
-        <li class="res malic">
+        <li class="res malic" id="row-malic">
           <span class="ico" aria-hidden="true">🍏</span>
           <span class="name">Ácido málico</span>
           <span class="val"><b id="out-malic">5</b> g</span>
@@ -73,15 +86,15 @@
       </ul>
 
       <p class="yield">Rende mais ou menos <b id="out-yield">250 ml</b> de super suco ✨</p>
-      <p class="ratio">Proporção: 15 g casca · 10 g cítrico · 5 g málico · 250 ml água</p>
+      <p class="ratio" id="ratio"></p>
     </section>
 
     <section class="card steps" aria-labelledby="steps-title">
-      <h2 id="steps-title">Passo a passo 🍋</h2>
+      <h2 id="steps-title">Passo a passo <span class="fruit-emoji">🍋‍🟩</span></h2>
       <ol>
         <li>
           <h3>Descasca os limões</h3>
-          <p>Com um descascador, tira só a parte verde da casca, evitando ao máximo a parte branca (que amarga). Dá pra usar as cascas dos limões que você já espremeu.</p>
+          <p>Com um descascador, tira só a parte <span id="peel-color">verde</span> da casca, evitando ao máximo a parte branca (que amarga). Dá pra usar as cascas dos limões que você já espremeu.</p>
         </li>
         <li>
           <h3>Pesa a casca</h3>
@@ -89,7 +102,7 @@
         </li>
         <li>
           <h3>Mistura com os ácidos</h3>
-          <p>Num pote, cobre as cascas com o ácido cítrico e o ácido málico. Mexe bem pra todas as cascas ficarem envolvidas no pó.</p>
+          <p>Num pote, cobre as cascas com <span id="acids">o ácido cítrico e o ácido málico</span>. Mexe bem pra todas as cascas ficarem envolvidas no pó.</p>
         </li>
         <li>
           <h3>Deixa descansar</h3>
@@ -111,7 +124,7 @@
     </section>
   </main>
 
-  <footer>feito com 🍋 e um pouquinho de ácido</footer>
+  <footer>feito com <span class="fruit-emoji">🍋‍🟩</span> e um pouquinho de ácido</footer>
 
   <script src="app.js"></script>
 </body>
