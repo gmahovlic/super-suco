@@ -2,11 +2,13 @@
 const RECIPES = {
   taiti: {
     peel: 15, citric: 10, malic: 5, water: 250,
+    juicePerPeel: 5, // ml de suco por g de casca (aprox.: ~7 g de casca e ~35 ml de suco por limão)
     title: "de Limão", emoji: "🍋‍🟩", heart: "💚", peelColor: "verde",
     themeColor: "#8fd14f", favicon: ["#8fd14f", "#3f8a24"],
   },
   siciliano: {
     peel: 50, citric: 50, malic: 0, water: 800,
+    juicePerPeel: 3.5, // aprox.: ~13 g de casca e ~45 ml de suco por limão
     title: "de Limão Siciliano", emoji: "🍋", heart: "💛", peelColor: "amarela",
     themeColor: "#ffe14d", favicon: ["#ffe14d", "#e0a800"],
   },
@@ -41,7 +43,12 @@ function update() {
   const water = formatVolume(r.water * k);
   $("out-water").textContent = water.value;
   $("out-water-unit").textContent = water.unit;
-  $("out-yield").textContent = `${water.value} ${water.unit}`;
+  const juiceMl = r.juicePerPeel * peel;
+  const total = formatVolume(r.water * k + juiceMl);
+  const juice = formatVolume(juiceMl);
+  $("out-yield").textContent = `${total.value} ${total.unit}`;
+  $("out-yield-detail").textContent =
+    `${water.value} ${water.unit} de água + ~${juice.value} ${juice.unit} do suco dos limões`;
 
   document.querySelectorAll(".val b").forEach(bump);
   document.querySelectorAll(".chips button").forEach((b) =>

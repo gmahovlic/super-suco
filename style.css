@@ -315,6 +315,13 @@ main {
   font-weight: 600;
 }
 
+.yield-detail {
+  text-align: center;
+  margin: 0 0 6px;
+  font-size: .85rem;
+  color: var(--muted);
+}
+
 .ratio {
   text-align: center;
   margin: 0;
